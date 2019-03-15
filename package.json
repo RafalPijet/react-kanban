@@ -1,0 +1,44 @@
+{
+  "name": "react-kanban",
+  "version": "1.0.0",
+  "description": "app with react library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --env development",
+    "build": "webpack --env production",
+    "server": "webpack-dev-server --hot --env development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RafalPijet/react-kanban.git"
+  },
+  "keywords": [
+    "react",
+    "api",
+    "kanban"
+  ],
+  "author": "LopezPL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RafalPijet/react-kanban/issues"
+  },
+  "homepage": "https://github.com/RafalPijet/react-kanban#readme",
+  "devDependencies": {
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-hot-loader": "^4.8.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0"
+  }
+}
