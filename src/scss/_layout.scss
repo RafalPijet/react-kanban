@@ -141,6 +141,7 @@ body {
         border-bottom: 1px solid $black;
         box-shadow: 0 -1px 10px $black;
         cursor: grab;
+        align-items: center;
 
         &:hover {
           .btn-edit {
@@ -157,6 +158,7 @@ body {
           cursor: pointer;
           border: none;
           outline: none;
+          height: fit-content;
 
           img {
             padding: 0 2px 2px 0;

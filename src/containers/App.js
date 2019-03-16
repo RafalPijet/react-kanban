@@ -1,7 +1,7 @@
 import React from "react";
 import {hot} from "react-hot-loader";
 import axios from "axios";
-import Column from "../components/Column";
+import ColumnsList from "../containers/ColumnsList";
 
 class App extends React.Component {
     constructor(props) {
@@ -40,6 +40,14 @@ class App extends React.Component {
             });
     }
 
+    removeColumn(id) {
+        console.log(`Id of column ${id}`);
+    }
+
+    removeCard(id) {
+        console.log(`Id of card ${id}`);
+    }
+
     render() {
         return (
             <div className="main row">
@@ -47,9 +55,9 @@ class App extends React.Component {
                     <h1>{this.state.boardName}</h1>
                     <button>Add a column</button>
                 </div>
-                <div className="column-space row col-12 flex-around">
-                    <Column/>
-                </div>
+                <ColumnsList delCard={this.removeCard.bind(this)}
+                             delColumn={this.removeColumn.bind(this)}
+                             data={this.state.columns}/>
             </div>
         )
     }

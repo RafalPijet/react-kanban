@@ -1,23 +1,24 @@
 import React from "react";
-import Card from "../components/Card";
+import CardsList from "../containers/CardsList";
 
 class Column  extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            id: this.props.id
+        }
     }
-    get tasks() {
-
-    }
+    
     render() {
         return (
             <div className="column row flex-content-between">
                 <div className="row col-12 flex-end">
                     <button className="btn-edit hidden"><img className="edit-column" src="./src/images/edit-regular.svg" alt="sorry"/></button>
-                    <button className="btn-delete">X</button>
+                    <button className="btn-delete" onClick={() => this.props.delColumn(this.state.id)}>X</button>
                 </div>
-                <h2 className="column-title col-12 text-center">Progress</h2>
+                <h2 className="column-title col-12 text-center">{this.props.name}</h2>
                 <div className="row col-12 flex-content-end flex-center">
-                    <Card/>
+                    <CardsList cards={this.props.cards} delCard={this.props.delCard}/>
                     <button className="add-card">Add a card</button>
                 </div>
             </div>
