@@ -1,0 +1,9 @@
+@mixin grid($prefix) {
+  @for $i from 1 through 12 {
+    .#{$prefix}-#{$i} {
+      $width: 100% / 12 * $i;
+      flex: 0 0 $width;
+      max-width: $width;
+    }
+  }
+}
