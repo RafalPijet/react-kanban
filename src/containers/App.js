@@ -2,6 +2,9 @@ import React from "react";
 import {hot} from "react-hot-loader";
 import axios from "axios";
 import ColumnsList from "../containers/ColumnsList";
+import Msg from "../components/Modal";
+import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
     constructor(props) {
@@ -53,11 +56,12 @@ class App extends React.Component {
             <div className="main row">
                 <div className="first-line row col-12">
                     <h1>{this.state.boardName}</h1>
-                    <button>Add a column</button>
+                    <button onClick={() => toast(<Msg/>)}>Add a column</button>
                 </div>
                 <ColumnsList delCard={this.removeCard.bind(this)}
                              delColumn={this.removeColumn.bind(this)}
                              data={this.state.columns}/>
+                <ToastContainer/>
             </div>
         )
     }

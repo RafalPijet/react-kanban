@@ -4,7 +4,7 @@ const plugins = [new HtmlWebpackPlugin({
     template: "src/index.html",
     filename: "index.html",
     inject: "body"
-})];
+    })];
 
 module.exports = (env) => {
     return {
