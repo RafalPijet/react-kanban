@@ -54,7 +54,7 @@ body {
   background-image: url("../images/pexels-photo-326311.jpeg");
   border: 5px solid $yellow-border;
   padding: 0 20px;
-  margin: 20px 0;
+  margin: 10px 0;
   box-shadow: 15px 15px 10px #000;
 
   .first-line {
@@ -186,9 +186,33 @@ body {
   }
 }
 
-.modal {
-  height: 100px;
-  width: 250px;
-  background-color: #4cd137;
+.modal-add-column {
+
+  label {
+    padding: 5px 0;
+  }
+
+  input {
+    font-size: $font-size-13;
+    outline: none;
+  }
+
+  button {
+    margin: 5px 0;
+    width: 80px;
+    height: 25px;
+    cursor: pointer;
+    background-color: $orange;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: $font-size-13;
+    box-shadow: 5px 5px 10px $black;
+    transition-duration: .2s;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
 }
 

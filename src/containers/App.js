@@ -2,9 +2,8 @@ import React from "react";
 import {hot} from "react-hot-loader";
 import axios from "axios";
 import ColumnsList from "../containers/ColumnsList";
-import Msg from "../components/Modal";
+import AddColumn from "../components/AddColumnModal";
 import {ToastContainer, toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
     constructor(props) {
@@ -21,7 +20,8 @@ class App extends React.Component {
                 'Content-Type': 'application/json'
             },
             boardName: "",
-            columns: []
+            columns: [],
+            content: ""
         }
     }
 
@@ -43,20 +43,74 @@ class App extends React.Component {
             });
     }
 
-    removeColumn(id) {
-        console.log(`Id of column ${id}`);
+    takeContent(content) {
+
+        if (content.length < 3) {
+            this.tooLittle();
+        } else {
+            this.setState({content: content});
+            this.progressAddColumn();
+            setTimeout(() => this.addColumn(), 1000);
+        }
+    }
+
+    addColumn() {
+
+        if (this.state.content.length > 2) {
+            let newColumn = {
+                name: this.state.content
+            };
+            axios.post(this.state.baseUrl + "/column", newColumn, {headers: this.state.myHeaders})
+                .then((rest) => this.setState({content: ""}))
+                .then(this.getAllColumns.bind(this))
+                .then(this.addColumnDone.bind(this))
+                .catch(err => this.addColumnError(err));
+        }
+    }
+
+    removeColumn(id, name) {
+        this.progressDelete(name);
+        axios.delete(this.state.baseUrl + "/column/" + id, {headers: this.state.myHeaders})
+            .then(this.getAllColumns.bind(this))
+            .then(this.deleteDone.bind(this))
+            .catch((err) => this.deleteError(err));
     }
 
     removeCard(id) {
-        console.log(`Id of card ${id}`);
+
     }
+
+    tooLittle = () => toast.error("You must enter at least 3 characters!!!", {autoClose: 5000, position: "top-left"});
+
+    toastDeleteId = null;
+
+    progressDelete = (name) => this.toastDeleteId = toast(`Deleting ${name} column in progress, please wait...`,
+        { autoClose: false, position: "top-left" });
+
+    deleteDone = () => toast.update(this.toastDeleteId, {render: `Deleting column DONE 😀`,
+        type: toast.TYPE.SUCCESS, autoClose: 5000 });
+
+    deleteError = (error) => toast.update(this.toastDeleteId, {render: `Deleting ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000});
+
+    toastAddColumnId = null;
+
+    progressAddColumn = () => this.toastAddColumnId = toast("Adding column in progress, please wait...",
+        {autoClose: false, position: "top-left"});
+
+    addColumnDone = () => toast.update(this.toastAddColumnId, {render: "Adding column DONE 😀",
+        type: toast.TYPE.SUCCESS, autoClose: 5000});
+
+    addColumnError = (error) => toast.update(this.toastAddColumnId, {render: `Adding column ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000});
 
     render() {
         return (
             <div className="main row">
                 <div className="first-line row col-12">
                     <h1>{this.state.boardName}</h1>
-                    <button onClick={() => toast(<Msg/>)}>Add a column</button>
+                    <button onClick={() => toast.info(<AddColumn takeContent={this.takeContent.bind(this)}/>,
+                        {autoClose: false})}>Add a column</button>
                 </div>
                 <ColumnsList delCard={this.removeCard.bind(this)}
                              delColumn={this.removeColumn.bind(this)}
