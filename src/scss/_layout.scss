@@ -96,7 +96,7 @@ body {
       min-height: 200px;
       box-shadow: 15px 15px 10px #000;
       border-radius: 25px;
-      background-color: $orange;
+      background-color: $violet;
       margin: 30px 10px;
       height: fit-content;
 
@@ -202,7 +202,7 @@ body {
     width: 80px;
     height: 25px;
     cursor: pointer;
-    background-color: $orange;
+    background-color: $grey-title;
     border-radius: 5px;
     border: none;
     outline: none;
@@ -214,5 +214,43 @@ body {
       box-shadow: none;
     }
   }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.zoomIn {
+  animation-name: zoomIn;
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.zoomOut {
+  animation-name: zoomOut;
+}
+
+.animate {
+  animation-duration: 800ms;
 }
 

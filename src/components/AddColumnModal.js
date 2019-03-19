@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {toast} from 'react-toastify';
 
-class AddColumn extends Component {
+class ContentModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +12,7 @@ class AddColumn extends Component {
     render() {
         return (
             <div className="modal-add-column row">
-                <label>Enter the column name:</label>
+                <label>{this.props.title}:</label>
                 <input className="col-12" onClick={(event) => event.stopPropagation()}
                        onChange={(event) =>  (event.target.value.length < 3) ? this.setState({canClose: false})
                            : this.setState({canClose: true, content: event.target.value})}
@@ -27,7 +26,7 @@ class AddColumn extends Component {
                            }}}/>
                 <div className="row col-12 flex-end">
                     <button onClick={(event) => {
-                        this.props.takeContent(this.state.content);
+                        this.props.progressContent(this.state.content);
                         (!this.state.canClose) ? event.stopPropagation() : []}}>Submit</button>
                 </div>
             </div>
@@ -35,4 +34,4 @@ class AddColumn extends Component {
     }
 }
 
-export default AddColumn;
+export default ContentModal;
