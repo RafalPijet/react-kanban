@@ -13,7 +13,10 @@ class Card extends React.Component {
         return (
             <div className="card row flex-between">
                 <p className="col-10 row card-description">{this.props.name}</p>
-                <button className="col-1 row btn-edit hidden"><img className="edit-card" src="./src/images/edit-regular.svg" alt="sorry"/></button>
+                <button className="col-1 row btn-edit hidden">
+                    <img className="edit-card" onClick={() => this.props.takeCardNameToChange(this.state.id, this.state.name)}
+                         src="./src/images/edit-regular.svg" alt="sorry"/></button>
+
                 <button className="col-1 row btn-delete" onClick={() => this.props.delCard(this.state.id, this.state.name)}>X</button>
             </div>
         )

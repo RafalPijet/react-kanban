@@ -30,8 +30,8 @@ class Column extends React.Component {
                 </div>
                 <h2 className="column-title col-12 text-center">{this.state.name}</h2>
                 <div className="row col-12 flex-content-end flex-center">
-                    <CardsList cards={this.props.cards} delCard={this.props.delCard}/>
-                    <button className="add-card" onClick={this.props.addCard}>Add a card</button>
+                    <CardsList cards={this.props.cards} delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}/>
+                    <button className="add-card" onClick={() => this.props.takeNewCardName(this.state.id)}>Add a card</button>
                 </div>
             </div>
         )

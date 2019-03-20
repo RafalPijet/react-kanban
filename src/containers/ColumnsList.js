@@ -12,7 +12,7 @@ class ColumnsList extends React.Component {
                     delCard={this.props.delCard} delColumn={this.props.delColumn} 
                     takeNewColumnName={this.props.takeNewColumnName} content={this.props.content}
                     columnId={this.props.columnId} checkUpdateColumn={this.props.checkUpdateColumn}
-                    addCard={this.props.addCard}/>)
+                    takeNewCardName={this.props.takeNewCardName} takeCardNameToChange={this.props.takeCardNameToChange}/>)
     }
 
     render() {
