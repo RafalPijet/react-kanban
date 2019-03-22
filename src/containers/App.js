@@ -136,7 +136,8 @@ class App extends React.Component {
 
         if (this.state.content.length > 2) {
             let updateCard = {
-                name: this.state.content
+                name: this.state.content,
+                bootcamp_kanban_column_id: this.state.columnId
             };
             axios.put(this.state.baseUrl + "/card/" + this.state.cardId, updateCard, {headers: this.state.myHeaders})
                 .then(() => this.setState({checkUpdateCard: true}))
@@ -189,8 +190,8 @@ class App extends React.Component {
         }, 100);
     }
 
-    takeCardNameToChange(id, oldName) {
-        this.setState({isNewCard: false, cardId: id, oldName: oldName});
+    takeCardNameToChange(id, oldName, columnId) {
+        this.setState({isNewCard: false, cardId: id, oldName: oldName, columnId: columnId});
         setTimeout(() => {
             toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`}
                                      progressContent={this.progressContent.bind(this)}/>,

@@ -23,7 +23,7 @@ class ContentModal extends Component {
                            : this.setState({canClose: true, content: event.target.value})}
                        />
                 <div className="row col-12 flex-end">
-                    <button onClick={this.handleClick.bind(this)}>Submit</button>
+                    <button>Submit</button>
                 </div>
             </form>
         );

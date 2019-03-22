@@ -20,9 +20,10 @@ class CardsList extends React.Component {
 
     get cards() {
         return this.props.cards.map(
-            (card) => <Card key={card.id} id={card.id} name={card.name}
-                            columnID={card.bootcamp_kanban_column_id}
-                            delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}/>)
+            (card) => <Card key={card.id} id={card.id} name={card.name} columnID={card.bootcamp_kanban_column_id}
+                            delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}
+                            checkUpdateCard={this.props.checkUpdateCard} cardId={this.props.cardId}
+                            content={this.props.content}/>)
     }
 
     render() {
@@ -33,9 +34,9 @@ class CardsList extends React.Component {
                     options={{
                         group: "shared"
                     }}
-                    // onChange={(order) => {
-                        // this.setState({cards: order})
-                   //}}
+                    onChange={(order) => {
+                        this.setState({cards: order})
+                   }}
                     tag="ul" >
                     {this.cards}
                 </Sortable>
