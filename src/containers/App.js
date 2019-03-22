@@ -52,22 +52,22 @@ class App extends React.Component {
     }
 
     progressContent(content) {
-        console.log(`BEFORE --> isNewColumn:${this.state.isNewColumn}, isNewCard:${this.state.isNewCard}`);
 
         if (content.length < 3) {
             this.tooLittle();
         } else {
             this.setState({content: content});
+            this.imBusy(true);
 
             if (this.state.isNewColumn) {
-                console.log("New column");
+
                 setTimeout(() => {
                     this.progressAddColumn(this.state.content);
                     this.addColumn();
                 }, 100);
 
             } else if (this.state.isNewColumn === false) {
-                console.log("Chenging name of column");
+
                 setTimeout(() => {
                     this.progressUpdateColumn(this.state.content, this.state.oldName);
                     this.updateColumn();
@@ -75,21 +75,20 @@ class App extends React.Component {
             }
 
             if (this.state.isNewCard) {
-                console.log("New card");
+
                 setTimeout(() => {
                     this.progressAddCard(this.state.content);
                     this.addCard();
                 }, 100);
 
             } else if (this.state.isNewCard === false) {
-                console.log("Chenging contents of card");
+
                 setTimeout(() => {
                     this.progressUpdateCard(this.state.content, this.state.oldName);
                     this.updateCard();
                 }, 100);
             }
         }
-        setTimeout(() => console.log(`AFTER --> isNewColumn:${this.state.isNewColumn}, isNewCard:${this.state.isNewCard}`), 1000);
     }
 
     addColumn() {
@@ -101,17 +100,26 @@ class App extends React.Component {
             axios.post(this.state.baseUrl + "/column", newColumn, {headers: this.state.myHeaders})
                 .then(this.getAllColumns.bind(this))
                 .then(this.addColumnDone.bind(this))
-                .catch(err => this.addColumnError(err));
+                .then(() => this.imBusy(false))
+                .catch(err => {
+                    this.addColumnError(err);
+                    this.imBusy(false);
+                });
             this.setState({content: "", isNewColumn: null});
         }
     }
 
     removeColumn(id, name) {
         this.progressDelete(name);
+        this.imBusy(true);
         axios.delete(this.state.baseUrl + "/column/" + id, {headers: this.state.myHeaders})
             .then(this.getAllColumns.bind(this))
             .then(this.deleteDone.bind(this))
-            .catch((err) => this.deleteError(err));
+            .then(() => this.imBusy(false))
+            .catch((err) => {
+                this.deleteError(err);
+                this.imBusy(false);
+            });
     }
 
     updateColumn() {
@@ -124,9 +132,13 @@ class App extends React.Component {
             axios.put(this.state.baseUrl + "/column/" + this.state.columnId, updateColumn, {headers: this.state.myHeaders})
                 .then(() => this.setState({checkUpdateColumn: true}))
                 .then(this.updateColumnDone.bind(this))
-                .then(() => this.setState({checkUpdateColumn: false, content: "", isNewColumn: null}))
+                .then(() => {
+                    this.setState({checkUpdateColumn: false, content: "", isNewColumn: null});
+                    this.imBusy(false);
+                })
                 .catch((err) => {
                     this.updateColumnError(err);
+                    this.imBusy(false);
                     this.setState({checkUpdateColumn: false, content: "", isNewColumn: null});
                 });
         }
@@ -142,10 +154,13 @@ class App extends React.Component {
             axios.put(this.state.baseUrl + "/card/" + this.state.cardId, updateCard, {headers: this.state.myHeaders})
                 .then(() => this.setState({checkUpdateCard: true}))
                 .then(this.updateCardDone.bind(this))
-                .then(() => this.setState({checkUpdateCard: false, content: "", isNewCard: null}))
-                // .then(this.getAllColumns.bind(this))
+                .then(() => {
+                    this.setState({checkUpdateCard: false, content: "", isNewCard: null});
+                    this.imBusy(false);
+                })
                 .catch((err) => {
                     this.updateCardError(err);
+                    this.imBusy(false);
                     this.setState({checkUpdateCard: false, content: "", isNewCard: null});
                 });
         }
@@ -161,17 +176,26 @@ class App extends React.Component {
             axios.post(this.state.baseUrl + "/card", newCard, {headers: this.state.myHeaders})
                 .then(this.getAllColumns.bind(this))
                 .then(this.addCardDone.bind(this))
-                .catch((err) => this.addCardError(err));
+                .then(() => this.imBusy(false))
+                .catch((err) => {
+                    this.addCardError(err);
+                    this.imBusy(false);
+                });
             this.setState({content: "", isNewCard: null});
         }
     }
 
     removeCard(id, name) {
         this.progressDeleteCard(name);
+        this.imBusy(true);
         axios.delete(this.state.baseUrl + "/card/" + id, {headers: this.state.myHeaders})
             .then(this.deleteCardDone)
             .then(this.getAllColumns.bind(this))
-            .catch((err) => this.deleteCardError(err))
+            .then(() => this.imBusy(false))
+            .catch((err) => {
+                this.deleteCardError(err);
+                this.imBusy(false);
+            })
     }
 
     takeNewCardName(columnId) {
@@ -197,6 +221,29 @@ class App extends React.Component {
                                      progressContent={this.progressContent.bind(this)}/>,
                 {autoClose: false, position: "top-center", transition: Zoom});
         }, 100);
+    }
+
+    imBusy(isBusy) {
+        let buttons = document.querySelectorAll("button");
+        let lists = document.querySelectorAll("li");
+
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = isBusy;
+            buttons[i].classList.toggle("imWork");
+        }
+
+        for (let i = 0; i < lists.length; i++) {
+
+            if (isBusy) {
+                lists[i].addEventListener("mousedown", (event) => event.preventDefault());
+            } else {
+                lists[i].addEventListener("mousedown", (event) => event.returnValue = true);
+            }
+
+            lists[i].classList.toggle("imWork");
+        }
+
+
     }
 
     tooLittle = () => toast.error("You must enter at least 3 characters!!!", {autoClose: 5000, position: "top-left"});
@@ -316,6 +363,5 @@ class App extends React.Component {
         )
     }
 }
-
 
 export default hot(module)(App);

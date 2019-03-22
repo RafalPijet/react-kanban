@@ -8,6 +8,14 @@ body {
   padding: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
+li {
+  cursor: grab;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -77,7 +85,6 @@ body {
       border-radius: 5px;
       background-color: $grey-title;
       font-size: $font-size-20;
-      cursor: pointer;
       outline: none;
       box-shadow: 15px 15px 10px #000;
       transition-duration: .3s;
@@ -100,7 +107,7 @@ body {
       margin: 30px 10px;
       height: fit-content;
 
-      >div:first-child {
+      > div:first-child {
         background-color: $grey-title;
         box-shadow: 0 1px 10px #000;
         cursor: grab;
@@ -116,7 +123,6 @@ body {
         margin: 2px 0;
         background-color: inherit;
         border: none;
-        cursor: pointer;
         outline: none;
         font-size: $font-size-18;
 
@@ -140,7 +146,6 @@ body {
         background-color: $yellow;
         border-bottom: 1px solid $black;
         box-shadow: 0 -1px 10px $black;
-        cursor: grab;
         align-items: center;
 
         &:hover {
@@ -155,7 +160,6 @@ body {
 
         .btn-delete, .btn-edit {
           background-color: inherit;
-          cursor: pointer;
           border: none;
           outline: none;
           height: fit-content;
@@ -174,7 +178,6 @@ body {
         margin: 10px 0;
         padding: 5px;
         outline: none;
-        cursor: pointer;
         box-shadow: 5px 5px 10px $black;
         transition-duration: .2s;
 
@@ -201,7 +204,6 @@ body {
     margin: 5px 0;
     width: 80px;
     height: 25px;
-    cursor: pointer;
     background-color: $grey-title;
     border-radius: 5px;
     border: none;
@@ -261,5 +263,14 @@ ul {
 
 .animate {
   animation-duration: 800ms;
+}
+
+.imWork {
+  color: $grey-light;
+  cursor: progress;
+
+  img {
+    visibility: hidden;
+  }
 }
 
