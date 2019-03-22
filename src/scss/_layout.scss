@@ -216,6 +216,15 @@ body {
   }
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+  }
+}
+
 @keyframes zoomIn {
   from {
     opacity: 0;

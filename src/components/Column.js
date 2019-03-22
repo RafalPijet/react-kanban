@@ -1,12 +1,13 @@
 import React from "react";
 import CardsList from "../containers/CardsList";
+import Sortable from "react-sortablejs";
 
 class Column extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             id: this.props.id,
-            name: this.props.name
+            name: this.props.name,
         }
     }
 
@@ -30,7 +31,10 @@ class Column extends React.Component {
                 </div>
                 <h2 className="column-title col-12 text-center">{this.state.name}</h2>
                 <div className="row col-12 flex-content-end flex-center">
-                    <CardsList cards={this.props.cards} delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}/>
+                    <Sortable className="col-12" onChange={(order) => {this.onUpdate(order)}}>
+                        <CardsList cards={this.props.cards} delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}
+                        cardId={this.props.cardId} checkUpdateCard={this.props.checkUpdateCard} content={this.props.content}/>
+                    </Sortable>
                     <button className="add-card" onClick={() => this.props.takeNewCardName(this.state.id)}>Add a card</button>
                 </div>
             </div>

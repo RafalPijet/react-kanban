@@ -1,9 +1,21 @@
 import React from "react";
 import Card from "../components/Card";
+import Sortable from "react-sortablejs";
+import uniqueId from 'lodash.uniqueid';
 
 class CardsList extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {
+            cards: this.props.cards
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.cards) {
+            this.setState({cards: this.props.cards});
+        }
     }
 
     get cards() {
@@ -14,11 +26,21 @@ class CardsList extends React.Component {
     }
 
     render() {
+
         return (
             <div className="col-12">
-                {this.cards}
+                <Sortable
+                    options={{
+                        group: "shared"
+                    }}
+                    onChange={(order) => {
+                        this.setState({cards: order})
+                    }}
+                    tag="ul" >
+                    {this.cards}
+                </Sortable>
             </div>
-        )
+        );
     }
 }
 

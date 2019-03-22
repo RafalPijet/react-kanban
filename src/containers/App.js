@@ -121,7 +121,7 @@ class App extends React.Component {
                 id: this.state.columnId,
                 name: this.state.content
             };
-            axios.put(this.state.baseUrl +"/column/" + this.state.columnId, updateColumn, {headers: this.state.myHeaders})
+            axios.put(this.state.baseUrl + "/column/" + this.state.columnId, updateColumn, {headers: this.state.myHeaders})
                 .then(() => this.setState({checkUpdateColumn: true}))
                 .then(this.updateColumnDone.bind(this))
                 .then(() => this.setState({checkUpdateColumn: false, content: "", isNewColumn: null}))
@@ -142,7 +142,7 @@ class App extends React.Component {
                 .then(() => this.setState({checkUpdateCard: true}))
                 .then(this.updateCardDone.bind(this))
                 .then(() => this.setState({checkUpdateCard: false, content: "", isNewCard: null}))
-                .then(this.getAllColumns.bind(this))
+                // .then(this.getAllColumns.bind(this))
                 .catch((err) => {
                     this.updateCardError(err);
                     this.setState({checkUpdateCard: false, content: "", isNewCard: null});
@@ -179,11 +179,12 @@ class App extends React.Component {
         />, {transition: Zoom, autoClose: false, position: "top-center"})
     }
 
-/*todo*/
+
     takeNewColumnName(id, oldName) {
         this.setState({isNewColumn: false, columnId: id, oldName: oldName});
         setTimeout(() => {
-            toast.info(<ContentModal title={`Change column name from ${this.state.oldName} to`} progressContent={this.progressContent.bind(this)}/>,
+            toast.info(<ContentModal title={`Change column name from ${this.state.oldName} to`}
+                                     progressContent={this.progressContent.bind(this)}/>,
                 {autoClose: false});
         }, 100);
     }
@@ -191,7 +192,8 @@ class App extends React.Component {
     takeCardNameToChange(id, oldName) {
         this.setState({isNewCard: false, cardId: id, oldName: oldName});
         setTimeout(() => {
-            toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`} progressContent={this.progressContent.bind(this)}/>,
+            toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`}
+                                     progressContent={this.progressContent.bind(this)}/>,
                 {autoClose: false, position: "top-center", transition: Zoom});
         }, 100);
     }
@@ -201,68 +203,92 @@ class App extends React.Component {
     toastDeleteId = null;
 
     progressDelete = (name) => this.toastDeleteId = toast(`Deleting ${name} column in progress, please wait...`,
-        { autoClose: false, position: "top-left" });
+        {autoClose: false, position: "top-left"});
 
-    deleteDone = () => toast.update(this.toastDeleteId, {render: `Deleting column DONE 😀`,
-        type: toast.TYPE.SUCCESS, autoClose: 5000 });
+    deleteDone = () => toast.update(this.toastDeleteId, {
+        render: `Deleting column DONE 😀`,
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    deleteError = (error) => toast.update(this.toastDeleteId, {render: `Deleting ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    deleteError = (error) => toast.update(this.toastDeleteId, {
+        render: `Deleting ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     toastAddColumnId = null;
 
     progressAddColumn = (name) => this.toastAddColumnId = toast(`Adding ${name} column in progress, please wait...`,
         {autoClose: false, position: "top-left"});
 
-    addColumnDone = () => toast.update(this.toastAddColumnId, {render: "Adding column DONE 😀",
-        type: toast.TYPE.SUCCESS, autoClose: 5000});
+    addColumnDone = () => toast.update(this.toastAddColumnId, {
+        render: "Adding column DONE 😀",
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    addColumnError = (error) => toast.update(this.toastAddColumnId, {render: `Adding column ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    addColumnError = (error) => toast.update(this.toastAddColumnId, {
+        render: `Adding column ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     toastUpdateColumnId = null;
 
     progressUpdateColumn = (name, oldName) => this.toastUpdateColumnId = toast(`Updating column name from ${oldName} to ${name}, please wait...`,
         {autoClose: false, position: "top-left"});
 
-    updateColumnDone = () => toast.update(this.toastUpdateColumnId, {render: "Updating column DONE 😀",
-        type: toast.TYPE.SUCCESS, autoClose: 5000});
+    updateColumnDone = () => toast.update(this.toastUpdateColumnId, {
+        render: "Updating column DONE 😀",
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    updateColumnError = (error) => toast.update(this.toastUpdateColumnId, {render: `Updating column ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    updateColumnError = (error) => toast.update(this.toastUpdateColumnId, {
+        render: `Updating column ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     toastDeleteCardId = null;
 
-    progressDeleteCard = (name) => this.toastDeleteCardId = toast(`Deleting ${name} card in progress, please wait...`,
-        { autoClose: false, position: "top-left" });
+    progressDeleteCard = (name) => this.toastDeleteCardId = toast(`Deleting card with contents ${name} in progress, please wait...`,
+        {autoClose: false, position: "top-left"});
 
-    deleteCardDone = () => toast.update(this.toastDeleteCardId, {render: `Deleting card DONE 😀`,
-        type: toast.TYPE.SUCCESS, autoClose: 5000 });
+    deleteCardDone = () => toast.update(this.toastDeleteCardId, {
+        render: `Deleting card DONE 😀`,
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    deleteCardError = (error) => toast.update(this.toastDeleteCardId, {render: `Deleting card ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    deleteCardError = (error) => toast.update(this.toastDeleteCardId, {
+        render: `Deleting card ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     toastAddCardId = null;
 
     progressAddCard = (name) => this.toastAddCardId = toast(`Adding contents: ${name} to card in progress, please wait...`,
         {autoClose: false, position: "top-left"});
 
-    addCardDone = () => toast.update(this.toastAddCardId, {render: "Adding card DONE 😀",
-        type: toast.TYPE.SUCCESS, autoClose: 5000});
+    addCardDone = () => toast.update(this.toastAddCardId, {
+        render: "Adding card DONE 😀",
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    addCardError = (error) => toast.update(this.toastAddCardId, {render: `Adding card ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    addCardError = (error) => toast.update(this.toastAddCardId, {
+        render: `Adding card ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     toastUpdateCardId = null;
 
     progressUpdateCard = (contents, oldContents) => this.toastUpdateCardId = toast(`Updating contents of card from ${oldContents} to ${contents}, please wait...`,
         {autoClose: false, position: "top-left"});
 
-    updateCardDone = () => toast.update(this.toastUpdateCardId, {render: "Updating contents of card DONE 😀",
-        type: toast.TYPE.SUCCESS, autoClose: 5000});
+    updateCardDone = () => toast.update(this.toastUpdateCardId, {
+        render: "Updating contents of card DONE 😀",
+        type: toast.TYPE.SUCCESS, autoClose: 5000
+    });
 
-    updateCardError = (error) => toast.update(this.toastUpdateCardId, {render: `Updating contents of card ERROR !!! ${error}`,
-        type: toast.TYPE.ERROR, autoClose: 5000});
+    updateCardError = (error) => toast.update(this.toastUpdateCardId, {
+        render: `Updating contents of card ERROR !!! ${error}`,
+        type: toast.TYPE.ERROR, autoClose: 5000
+    });
 
     render() {
         return (
@@ -270,19 +296,25 @@ class App extends React.Component {
                 <div className="first-line row col-12">
                     <h1>{this.state.boardName}</h1>
                     <button onClick={() => {
-                        toast.info(<ContentModal title="Enter the column name" progressContent={this.progressContent.bind(this)}/>,
-                        {autoClose: false});
+                        toast.info(<ContentModal title="Enter the column name"
+                                                 progressContent={this.progressContent.bind(this)}/>,
+                            {autoClose: false});
                         this.setState({isNewColumn: true});
-                    }}>Add a column</button>
+                    }}>Add a column
+                    </button>
                 </div>
                 <ColumnsList delCard={this.removeCard.bind(this)} takeNewCardName={this.takeNewCardName.bind(this)}
-                             delColumn={this.removeColumn.bind(this)} takeNewColumnName={this.takeNewColumnName.bind(this)}
+                             delColumn={this.removeColumn.bind(this)}
+                             takeNewColumnName={this.takeNewColumnName.bind(this)}
                              data={this.state.columns} content={this.state.content} columnId={this.state.columnId}
-                             checkUpdateColumn={this.state.checkUpdateColumn} takeCardNameToChange={this.takeCardNameToChange.bind(this)}/>
+                             checkUpdateColumn={this.state.checkUpdateColumn}
+                             takeCardNameToChange={this.takeCardNameToChange.bind(this)}
+                             cardId={this.state.cardId} checkUpdateCard={this.state.checkUpdateCard}/>
                 <ToastContainer/>
             </div>
         )
     }
 }
+
 
 export default hot(module)(App);
