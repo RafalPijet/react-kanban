@@ -9,27 +9,23 @@ class ContentModal extends Component {
         }
     }
 
+    handleClick(event) {
+        this.props.progressContent(this.state.content);
+        (!this.state.canClose) ? event.stopPropagation() : []
+    }
+
     render() {
         return (
-            <div className="modal-add-column row">
+            <form className="modal-add-column row" onSubmit={this.handleClick.bind(this)}>
                 <label>{this.props.title}:</label>
-                <input className="col-12" onClick={(event) => event.stopPropagation()}
+                <input autoFocus={true} className="col-12" onClick={(event) => event.stopPropagation()}
                        onChange={(event) =>  (event.target.value.length < 3) ? this.setState({canClose: false})
                            : this.setState({canClose: true, content: event.target.value})}
-                       onKeyUp={(event) => {
-
-                           if (event.keyCode === 13 && this.state.canClose) {
-                               this.setState({
-                                   content: event.target.value
-                               });
-                               /*ToDo*/
-                           }}}/>
+                       />
                 <div className="row col-12 flex-end">
-                    <button onClick={(event) => {
-                        this.props.progressContent(this.state.content);
-                        (!this.state.canClose) ? event.stopPropagation() : []}}>Submit</button>
+                    <button onClick={this.handleClick.bind(this)}>Submit</button>
                 </div>
-            </div>
+            </form>
         );
     }
 }

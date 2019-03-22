@@ -33,9 +33,9 @@ class CardsList extends React.Component {
                     options={{
                         group: "shared"
                     }}
-                    onChange={(order) => {
-                        this.setState({cards: order})
-                    }}
+                    // onChange={(order) => {
+                        // this.setState({cards: order})
+                   //}}
                     tag="ul" >
                     {this.cards}
                 </Sortable>
