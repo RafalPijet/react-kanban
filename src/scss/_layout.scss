@@ -83,15 +83,8 @@ li {
       width: 150px;
       height: 40px;
       border-radius: 5px;
-      //background-color: $grey-title;
       font-size: $font-size-20;
       outline: none;
-      //box-shadow: 15px 15px 10px #000;
-      //transition-duration: .3s;
-
-      //&:active {
-      //  box-shadow: none;
-      //}
     }
   }
 
@@ -112,26 +105,8 @@ li {
         box-shadow: 0 1px 10px #000;
         cursor: grab;
         height: 25px;
-
-        //&:hover {
-        //  .btn-edit {
-        //    visibility: visible;
-        //  }
         }
 
-
-      button {
-        //margin: 2px 0;
-        //background-color: inherit;
-        //border: none;
-        //outline: none;
-        //font-size: $font-size-18;
-
-        //img {
-        //  height: 17px;
-        //  padding: 2px 5px 0 0;
-        //}
-      }
 
       .btn-delete {
         padding-right: 2px;
@@ -149,12 +124,6 @@ li {
         box-shadow: 0 -1px 10px $black;
         align-items: center;
 
-        &:hover {
-          .btn-edit {
-            visibility: visible;
-          }
-        }
-
         p {
           margin: 10px 0;
         }
@@ -164,6 +133,7 @@ li {
           border: none;
           outline: none;
           height: fit-content;
+          font-size: $font-size-18;
 
           img {
             padding: 0 2px 2px 0;
@@ -171,21 +141,6 @@ li {
           }
         }
       }
-
-      //.add-card {
-      //  border-radius: 5px;
-      //  background-color: $grey-title;
-      //  border: none;
-      //  margin: 10px 0;
-      //  padding: 5px;
-      //  outline: none;
-      //  box-shadow: 5px 5px 10px $black;
-      //  transition-duration: .2s;
-      //
-      //  &:active {
-      //    box-shadow: none;
-      //  }
-      //}
     }
   }
 }
@@ -265,5 +220,3 @@ ul {
 .animate {
   animation-duration: 800ms;
 }
-
-

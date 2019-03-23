@@ -205,7 +205,10 @@ class App extends React.Component {
     takeNewCardName(columnId) {
         this.setState({isNewCard: true, columnId: columnId});
         toast.info(<ContentModal title="Enter the new card contents" progressContent={this.progressContent.bind(this)}
-        />, {transition: Zoom, autoClose: false, position: "top-center"})
+        />, {transition: Zoom, autoClose: false, position: "top-center", onOpen: () => this.imBusy(true),
+            onClose: () => {
+                setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
+                }, 100)}})
     }
 
 
@@ -214,7 +217,10 @@ class App extends React.Component {
         setTimeout(() => {
             toast.info(<ContentModal title={`Change column name from ${this.state.oldName} to`}
                                      progressContent={this.progressContent.bind(this)}/>,
-                {autoClose: false});
+                {autoClose: false, onOpen: () => this.imBusy(true),
+                    onClose: () => {
+                        setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
+                        }, 100)}});
         }, 100);
     }
 
@@ -223,7 +229,10 @@ class App extends React.Component {
         setTimeout(() => {
             toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`}
                                      progressContent={this.progressContent.bind(this)}/>,
-                {autoClose: false, position: "top-center", transition: Zoom});
+                {autoClose: false, position: "top-center", transition: Zoom, onOpen: () => this.imBusy(true),
+                    onClose: () => {
+                        setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
+                        }, 100)}});
         }, 100);
     }
 
@@ -335,7 +344,9 @@ class App extends React.Component {
                     <button onClick={() => {
                         toast.info(<ContentModal title="Enter the column name"
                                                  progressContent={this.progressContent.bind(this)}/>,
-                            {autoClose: false});
+                            {autoClose: false, onOpen: () => this.imBusy(true), onClose: () => {
+                                    setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
+                            }, 100)}});
                         this.setState({isNewColumn: true});
                     }} disabled={this.state.isWork} className={this.state.progressWork}>Add a column
                     </button>

@@ -31,7 +31,7 @@ class CardsList extends React.Component {
             (card) => <Card key={card.id} id={card.id} name={card.name} columnID={card.bootcamp_kanban_column_id}
                             delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}
                             checkUpdateCard={this.props.checkUpdateCard} cardId={this.props.cardId}
-                            content={this.props.content}/>)
+                            content={this.props.content} visibility={this.props.visibility} isWork={this.props.isWork}/>)
     }
 
     render() {
