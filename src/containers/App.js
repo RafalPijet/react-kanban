@@ -4,6 +4,7 @@ import axios from "axios";
 import ColumnsList from "../containers/ColumnsList";
 import ContentModal from "../components/AddColumnModal";
 import {ToastContainer, toast, cssTransition} from "react-toastify";
+import buttonsState from "../components/buttonsState.css"
 
 const Zoom = cssTransition({
     enter: 'zoomIn',
@@ -29,7 +30,10 @@ class App extends React.Component {
             isNewColumn: null,
             isNewCard: null,
             checkUpdateColumn: null,
-            checkUpdateCard: null
+            checkUpdateCard: null,
+            isWork: false,
+            progressWork: buttonsState.imDontWork,
+            visibility: buttonsState.imVisible
         }
     }
 
@@ -224,26 +228,11 @@ class App extends React.Component {
     }
 
     imBusy(isBusy) {
-        let buttons = document.querySelectorAll("button");
-        let lists = document.querySelectorAll("li");
-
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].disabled = isBusy;
-            buttons[i].classList.toggle("imWork");
-        }
-
-        for (let i = 0; i < lists.length; i++) {
-
-            if (isBusy) {
-                lists[i].addEventListener("mousedown", (event) => event.preventDefault());
-            } else {
-                lists[i].addEventListener("mousedown", (event) => event.returnValue = true);
-            }
-
-            lists[i].classList.toggle("imWork");
-        }
-
-
+        this.setState({
+            isWork: isBusy,
+            progressWork: isBusy ? buttonsState.imWork : buttonsState.imDontWork,
+            visibility: isBusy ? buttonsState.imHidden : buttonsState.imVisible
+        });
     }
 
     tooLittle = () => toast.error("You must enter at least 3 characters!!!", {autoClose: 5000, position: "top-left"});
@@ -348,14 +337,14 @@ class App extends React.Component {
                                                  progressContent={this.progressContent.bind(this)}/>,
                             {autoClose: false});
                         this.setState({isNewColumn: true});
-                    }}>Add a column
+                    }} disabled={this.state.isWork} className={this.state.progressWork}>Add a column
                     </button>
                 </div>
                 <ColumnsList delCard={this.removeCard.bind(this)} takeNewCardName={this.takeNewCardName.bind(this)}
-                             delColumn={this.removeColumn.bind(this)}
-                             takeNewColumnName={this.takeNewColumnName.bind(this)}
+                             delColumn={this.removeColumn.bind(this)} isWork={this.state.isWork}
+                             takeNewColumnName={this.takeNewColumnName.bind(this)} progressWork={this.state.progressWork}
                              data={this.state.columns} content={this.state.content} columnId={this.state.columnId}
-                             checkUpdateColumn={this.state.checkUpdateColumn}
+                             checkUpdateColumn={this.state.checkUpdateColumn} visibility={this.state.visibility}
                              takeCardNameToChange={this.takeCardNameToChange.bind(this)}
                              cardId={this.state.cardId} checkUpdateCard={this.state.checkUpdateCard}/>
                 <ToastContainer/>

@@ -10,8 +10,9 @@ class ColumnsList extends React.Component {
         return this.props.data.map((column) => 
             <Column key={column.id} id={column.id} name={column.name} cards={column.cards} cardId={this.props.cardId}
                     delCard={this.props.delCard} delColumn={this.props.delColumn} checkUpdateCard={this.props.checkUpdateCard}
-                    takeNewColumnName={this.props.takeNewColumnName} content={this.props.content}
+                    takeNewColumnName={this.props.takeNewColumnName} content={this.props.content} isWork={this.props.isWork}
                     columnId={this.props.columnId} checkUpdateColumn={this.props.checkUpdateColumn}
+                    progressWork={this.props.progressWork} visibility={this.props.visibility}
                     takeNewCardName={this.props.takeNewCardName} takeCardNameToChange={this.props.takeCardNameToChange}/>)
     }
 

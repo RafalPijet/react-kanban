@@ -7,7 +7,10 @@ class CardsList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cards: this.props.cards
+            cards: this.props.cards,
+            isWork: this.props.isWork,
+            progressWork: this.props.progressWork,
+            visibility: this.props.visibility
         }
     }
 
@@ -16,6 +19,11 @@ class CardsList extends React.Component {
         if (nextProps.cards) {
             this.setState({cards: this.props.cards});
         }
+        this.setState({
+            progressWork: nextProps.progressWork,
+            visibility: nextProps.visibility,
+            isWork: nextProps.isWork
+        })
     }
 
     get cards() {
@@ -32,11 +40,10 @@ class CardsList extends React.Component {
             <div className="col-12">
                 <Sortable
                     options={{
-                        group: "shared"
+                        group: "shared",
+                        disabled: this.state.isWork
                     }}
-                    onChange={(order) => {
-                        this.setState({cards: order})
-                   }}
+                    onChange={() => {}}
                     tag="ul" >
                     {this.cards}
                 </Sortable>

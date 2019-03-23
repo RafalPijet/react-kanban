@@ -1,0 +1,42 @@
+.imWork {
+    cursor: progress;
+    border-radius: 5px;
+    background-color: #bababa;
+    border: none;
+    margin: 10px 0;
+    padding: 5px;
+    outline: none;
+    font-size: 18px;
+}
+
+.imDontWork {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #bababa;
+    border: none;
+    margin: 10px 0;
+    padding: 5px;
+    outline: none;
+    box-shadow: 5px 5px 10px #000;
+    transition-duration: .2s;
+    font-size: 18px;
+}
+
+.imDontWork:active {
+    box-shadow: none;
+}
+
+.imVisible {
+    visibility: visible;
+    height: 17px;
+    padding: 2px 5px 0 0;
+    background-color: inherit;
+    border: none;
+    font-size: 18px;
+    outline: none;
+}
+
+.imHidden {
+    visibility: hidden;
+}
+
