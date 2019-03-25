@@ -55,43 +55,37 @@ class App extends React.Component {
             });
     }
 
+    setContent(content) {
+        return new Promise((resolve) => resolve(this.setState({content: content})))
+    }
+
+    checkContent() {
+        return new Promise((resolve) => resolve(this.state.content.length < 3))
+    }
+
+    setColumnChange(id, oldName) {
+        return new Promise((resolve) => resolve(this.setState({isNewColumn: false, columnId: id, oldName: oldName})))
+    }
+
+    setCardChange(id, oldName, columnId) {
+        return new Promise((resolve) => resolve(this.setState({isNewCard: false, cardId: id, oldName: oldName, columnId: columnId})))
+    }
+
     progressContent(content) {
 
         if (content.length < 3) {
             this.tooLittle();
         } else {
-            this.setState({content: content});
             this.imBusy(true);
-
-            if (this.state.isNewColumn) {
-
-                setTimeout(() => {
-                    this.progressAddColumn(this.state.content);
-                    this.addColumn();
-                }, 100);
-
-            } else if (this.state.isNewColumn === false) {
-
-                setTimeout(() => {
-                    this.progressUpdateColumn(this.state.content, this.state.oldName);
-                    this.updateColumn();
-                }, 100);
-            }
-
-            if (this.state.isNewCard) {
-
-                setTimeout(() => {
-                    this.progressAddCard(this.state.content);
-                    this.addCard();
-                }, 100);
-
-            } else if (this.state.isNewCard === false) {
-
-                setTimeout(() => {
-                    this.progressUpdateCard(this.state.content, this.state.oldName);
-                    this.updateCard();
-                }, 100);
-            }
+            this.setContent(content)
+                .then(() => this.state.isNewColumn ? this.progressAddColumn(this.state.content) : [])
+                .then(() => this.state.isNewColumn ? this.addColumn() : [])
+                .then(() => (this.state.isNewColumn === false) ? this.progressUpdateColumn(this.state.content, this.state.oldName) : [])
+                .then(() => (this.state.isNewColumn === false) ? this.updateColumn() : [])
+                .then(() => this.state.isNewCard ? this.progressAddCard(this.state.content) : [])
+                .then(() => this.state.isNewCard ? this.addCard() : [])
+                .then(() => (this.state.isNewCard === false) ? this.progressUpdateCard(this.state.content, this.state.oldName) : [])
+                .then(() => (this.state.isNewCard === false) ? this.updateCard() : [])
         }
     }
 
@@ -136,15 +130,12 @@ class App extends React.Component {
             axios.put(this.state.baseUrl + "/column/" + this.state.columnId, updateColumn, {headers: this.state.myHeaders})
                 .then(() => this.setState({checkUpdateColumn: true}))
                 .then(this.updateColumnDone.bind(this))
-                .then(() => {
-                    this.setState({checkUpdateColumn: false, content: "", isNewColumn: null});
-                    this.imBusy(false);
-                })
+                .then(() => this.setState({checkUpdateColumn: false, content: "", isNewColumn: null}))
                 .catch((err) => {
                     this.updateColumnError(err);
-                    this.imBusy(false);
                     this.setState({checkUpdateColumn: false, content: "", isNewColumn: null});
                 });
+            this.imBusy(false);
         }
     }
 
@@ -204,36 +195,41 @@ class App extends React.Component {
 
     takeNewCardName(columnId) {
         this.setState({isNewCard: true, columnId: columnId});
-        toast.info(<ContentModal title="Enter the new card contents" progressContent={this.progressContent.bind(this)}
-        />, {transition: Zoom, autoClose: false, position: "top-center", onOpen: () => this.imBusy(true),
+        toast.info(<ContentModal title="Enter the new card contents"
+                                 progressContent={this.progressContent.bind(this)}/>, {
+            transition: Zoom, autoClose: false, position: "top-center", onOpen: () => this.imBusy(true),
             onClose: () => {
-                setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
-                }, 100)}})
+                this.checkContent()
+                    .then(() => this.imBusy(false));
+            }
+        })
     }
 
 
     takeNewColumnName(id, oldName) {
-        this.setState({isNewColumn: false, columnId: id, oldName: oldName});
-        setTimeout(() => {
-            toast.info(<ContentModal title={`Change column name from ${this.state.oldName} to`}
-                                     progressContent={this.progressContent.bind(this)}/>,
-                {autoClose: false, onOpen: () => this.imBusy(true),
+        this.setColumnChange(id, oldName)
+            .then(() => toast.info(<ContentModal title={`Change column name from ${this.state.oldName} to`}
+                                                 progressContent={this.progressContent.bind(this)}/>,
+                {
+                    autoClose: false, onOpen: () => this.imBusy(true),
                     onClose: () => {
-                        setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
-                        }, 100)}});
-        }, 100);
+                        this.checkContent()
+                            .then(() => this.imBusy(false));
+                    }
+                }));
     }
 
     takeCardNameToChange(id, oldName, columnId) {
-        this.setState({isNewCard: false, cardId: id, oldName: oldName, columnId: columnId});
-        setTimeout(() => {
-            toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`}
-                                     progressContent={this.progressContent.bind(this)}/>,
-                {autoClose: false, position: "top-center", transition: Zoom, onOpen: () => this.imBusy(true),
+        this.setCardChange(id, oldName, columnId)
+            .then(() => toast.info(<ContentModal title={`Change contents of card from ${this.state.oldName} to`}
+                                                 progressContent={this.progressContent.bind(this)}/>,
+                {
+                    autoClose: false, position: "top-center", transition: Zoom, onOpen: () => this.imBusy(true),
                     onClose: () => {
-                        setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
-                        }, 100)}});
-        }, 100);
+                        this.checkContent()
+                            .then(() => this.imBusy(false));
+                    }
+                }));
     }
 
     imBusy(isBusy) {
@@ -344,16 +340,20 @@ class App extends React.Component {
                     <button onClick={() => {
                         toast.info(<ContentModal title="Enter the column name"
                                                  progressContent={this.progressContent.bind(this)}/>,
-                            {autoClose: false, onOpen: () => this.imBusy(true), onClose: () => {
-                                    setTimeout(() => {this.state.content.length < 3 ? this.imBusy(false) : []
-                            }, 100)}});
+                            {
+                                autoClose: false, onOpen: () => this.imBusy(true), onClose: () => {
+                                    this.checkContent()
+                                        .then(() => this.imBusy(false));
+                                }
+                            });
                         this.setState({isNewColumn: true});
                     }} disabled={this.state.isWork} className={this.state.progressWork}>Add a column
                     </button>
                 </div>
                 <ColumnsList delCard={this.removeCard.bind(this)} takeNewCardName={this.takeNewCardName.bind(this)}
                              delColumn={this.removeColumn.bind(this)} isWork={this.state.isWork}
-                             takeNewColumnName={this.takeNewColumnName.bind(this)} progressWork={this.state.progressWork}
+                             takeNewColumnName={this.takeNewColumnName.bind(this)}
+                             progressWork={this.state.progressWork}
                              data={this.state.columns} content={this.state.content} columnId={this.state.columnId}
                              checkUpdateColumn={this.state.checkUpdateColumn} visibility={this.state.visibility}
                              takeCardNameToChange={this.takeCardNameToChange.bind(this)}

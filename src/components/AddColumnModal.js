@@ -11,19 +11,19 @@ class ContentModal extends Component {
 
     handleClick(event) {
         this.props.progressContent(this.state.content);
-        (!this.state.canClose) ? event.stopPropagation() : []
+        (!this.state.canClose) ? event.stopPropagation() : [];
     }
 
     render() {
         return (
-            <form className="modal-add-column row" onSubmit={this.handleClick.bind(this)}>
+            <form className="modal-add-column row"  onSubmit={(event) => event.preventDefault()}>
                 <label>{this.props.title}:</label>
                 <input autoFocus={true} className="col-12" onClick={(event) => event.stopPropagation()}
-                       onChange={(event) =>  (event.target.value.length < 3) ? this.setState({canClose: false})
-                           : this.setState({canClose: true, content: event.target.value})}
-                       />
+                       onChange={(event) =>  (event.target.value.length < 3)
+                           ? this.setState({canClose: false, content: event.target.value})
+                           : this.setState({canClose: true, content: event.target.value})}/>
                 <div className="row col-12 flex-end">
-                    <button>Submit</button>
+                    <button onClick={this.handleClick.bind(this)}>Submit</button>
                 </div>
             </form>
         );
