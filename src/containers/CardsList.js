@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "../components/Card";
-import Sortable from "react-sortablejs";
-import uniqueId from 'lodash.uniqueid';
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 class CardsList extends React.Component {
     constructor(props) {
@@ -28,26 +27,38 @@ class CardsList extends React.Component {
 
     get cards() {
         return this.props.cards.map(
-            (card) => <Card key={card.id} id={card.id} name={card.name} columnID={card.bootcamp_kanban_column_id}
+            (card, index) => (
+                <Draggable key={card.id} draggableId={card.id} index={index}>
+                {(provided, snapshot) => (
+                    <div  ref={provided.innerRef} {...provided.draggableProps}
+                          {...provided.dragHandleProps}>
+                        <Card key={card.id} id={card.id} name={card.name} columnID={card.bootcamp_kanban_column_id}
                             delCard={this.props.delCard} takeCardNameToChange={this.props.takeCardNameToChange}
                             checkUpdateCard={this.props.checkUpdateCard} cardId={this.props.cardId}
-                            content={this.props.content} visibility={this.props.visibility} isWork={this.props.isWork}/>)
-    }
+                            content={this.props.content} visibility={this.props.visibility}
+                            isWork={this.props.isWork}/>
+                    </div>
+                    )}
+                </Draggable>
+            ))}
+
+    onDragEnd(result) {
+
+    };
 
     render() {
 
         return (
-            <div className="col-12">
-                <Sortable
-                    options={{
-                        group: "shared",
-                        disabled: this.state.isWork
-                    }}
-                    onChange={() => {}}
-                    tag="ul" >
-                    {this.cards}
-                </Sortable>
-            </div>
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                        <div {...provided.droppableProps}
+                             ref={provided.innerRef} className="col-12">
+                            {this.cards}
+                        </div>
+                        )}
+                </Droppable>
+            </DragDropContext>
         );
     }
 }

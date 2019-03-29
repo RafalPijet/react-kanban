@@ -4,7 +4,7 @@ import axios from "axios";
 import ColumnsList from "../containers/ColumnsList";
 import ContentModal from "../components/AddColumnModal";
 import {ToastContainer, toast, cssTransition} from "react-toastify";
-import buttonsState from "../components/buttonsState.css"
+import buttonsState from "../components/buttonsState.css";
 
 const Zoom = cssTransition({
     enter: 'zoomIn',
@@ -68,7 +68,12 @@ class App extends React.Component {
     }
 
     setCardChange(id, oldName, columnId) {
-        return new Promise((resolve) => resolve(this.setState({isNewCard: false, cardId: id, oldName: oldName, columnId: columnId})))
+        return new Promise((resolve) => resolve(this.setState({
+            isNewCard: false,
+            cardId: id,
+            oldName: oldName,
+            columnId: columnId
+        })))
     }
 
     progressContent(content) {

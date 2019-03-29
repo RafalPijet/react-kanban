@@ -1,6 +1,7 @@
 import React from "react";
 import Column from "../components/Column";
 
+
 class ColumnsList extends React.Component {
     constructor(props) {
         super(props)
