@@ -31,3 +31,4 @@ class ContentModal extends Component {
 }
 
 export default ContentModal;
+ 
